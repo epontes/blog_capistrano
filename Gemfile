@@ -39,7 +39,7 @@ end
  gem 'unicorn'
 
 # Use Capistrano for deployment
- gem 'capistrano'
+ gem 'capistrano', '~> 2.11.2'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

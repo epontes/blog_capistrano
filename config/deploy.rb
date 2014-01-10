@@ -1,4 +1,4 @@
-require "bunlder/capistrano"
+require "bundler/capistrano"
 
 server "162.243.198.14",:web ,:app , :db, primary: true
 
@@ -15,7 +15,7 @@ set :scm, "git"
 set :repository,  "https://github.com/epontes/blog_capistrano.git"
 set :branch, "master"
 
-default_run_options[:pity]  = true
+default_run_options[:pty]  = true
 ssh_options[:forward_agent] = true
 
 after "deploy" , "deploy:cleanup" #keep only the last  5 releases
@@ -23,7 +23,7 @@ after "deploy" , "deploy:cleanup" #keep only the last  5 releases
 namespace :deploy do
    %w[start stop restart].each do |command|
      desc "#{command} unicorn server"
-     taks command , roles: :app , except: {no_release: true} do
+     task command , roles: :app , except: {no_release: true} do
        run "/etc/init.d/unicorn_#{application} #{command}"
      end
    end
@@ -38,7 +38,7 @@ namespace :deploy do
    after "deploy:setup" ,"deploy:setup_config"
    
    task :symlink_config , roles: :app do
-     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yaml"
+     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
    end
    after "deploy:finalize_update", "deploy:symlink_config"
    
